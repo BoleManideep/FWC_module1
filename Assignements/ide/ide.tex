@@ -1,0 +1,131 @@
+\documentclass[10pt,a4paper]{report}
+\usepackage[latin1]{inputenc}
+\usepackage{amsmath}
+\usepackage{amsfonts}
+\usepackage{amssymb}
+\usepackage{graphicx}
+\usepackage{hyperref}
+\usepackage{multicol}
+\usepackage{karnaugh-map}
+\usepackage[margin=0.5in]{geometry}
+\usepackage{tikz}
+\usetikzlibrary[karnaugh]\usetikzlibrary{arrows,shapes.gates.logic.US,shapes.gates.logic.IEC,calc}
+
+
+\begin{document}
+\centering {\includegraphics[scale=0.07]{IITH.png}} \vspace{3mm}\\ \raggedleft Name: Bole Manideep\vspace{2mm}\\ \raggedleft Roll No.: FWC22026\vspace{2mm}\\ \raggedleft manideepbole312@gmail.com \vspace{10mm}
+\\ \centering \Large \textbf{FWC ASSIGNMENT-1} \normalsize \vspace{15mm}
+\begin{multicols}{2} \raggedright \large \textbf{\underline{Contents}} \normalsize \vspace{5mm}
+\begin{itemize}
+\raggedright  \item Componnets Required \item Description \item Logic Circuit \item Procedure \item karnaugh-map \item Conclusion
+\end{itemize} \vspace{5mm}
+\raggedright \hspace{10mm} \textbf{Abstract:}  Here we are going to discuss how to draw the Logic Circuit for the given Boolean Expression,\\  \textbf{(U + V').W' + Z} and verifying it's functionality using Arduino and it's Truth Table.\vspace{5mm} 
+\\ \raggedright \large \textbf{\underline{Components Required:}} \normalsize \vspace{3mm}
+
+\begin{center}
+    \setlength{\arrayrulewidth}{0.1mm}
+\setlength{\tabcolsep}{12pt}
+\renewcommand{\arraystretch}{1.5}
+    \begin{tabular}{|c|c|c|}
+    \hline % <-- Alignments: 1st column left, 2nd middle and 3rd right, with vertical lines in between
+      \textbf{S.No} & \textbf{Component} & \textbf{Number}\\
+      \hline
+	1. & Arduino & 1 \\
+	2. & Bread Board & 1 \\
+	3. & Jumer Wires(M-M) & 10 \\
+	4. & LED & 1 \\
+	5. & Resistor(150 ohm) & 1 \\ 
+      \hline
+      
+   \end{tabular}
+ \end{center} \vspace{5mm}
+\raggedright \large \textbf{\underline{Descrption:}} \normalsize \vspace{2mm}
+\\ \hspace{4mm} Given is a boolean expression with four different variables implying that four inputs are to be given for the circuit,in addition to that we have some mathematical operations, apostrophe and dot operators. \vspace{2mm}
+\\ \hspace{4mm} These symbols are nothing but the logic gates represting AND, OR, NOT gates for symbols "\textbf{.}",  "\textbf{+}",  \\ " \textbf{'} "  respectively. \vspace{2mm}
+\\ \hspace{4mm} So, for the given expression 5 distinct logic gates  are to be connected using the four inputs in accordance with the boolean expression to excute the logic in pratice. \vspace{2mm}
+\\ \hspace{4mm} For an effective and fast digital circuit, number of gates must be as minimum as possible, becuase the delay in the output increses with increase in number of gates. \vspace{2mm}
+\\ \hspace{4mm} That's why minimizing a logical expression in very much important so that number of gates will be reduced. \vspace{15mm}
+\\ \raggedright \large \textbf{\underline{Logic Circuit:}} \normalsize \vspace{10mm}
+\\ \centering
+\tikzstyle{branch}=[fill,shape=circle,minimum size=3pt,inner sep=0pt]
+
+\begin{tikzpicture}[label distance=2mm]
+    \node (x0) at (0,0) {$U$};
+    \node (x1) at (1,0) {$V$};
+    \node (x2) at (2,0) {$W$};
+    \node (x3) at (3,0) {$Z$};
+    
+    \node[not gate US, draw, rotate=-90] at ($(x1)+(0,-1)$) (Not1) {};
+    \node[not gate US, draw, rotate=-90] at ($(x2)+(0,-1)$) (Not2) {};
+
+    \node[or gate US, draw, logic gate inputs=nn] at ($(x3)+(1,-2)$) (Or1) {};
+
+    \node[and gate US, draw, logic gate inputs=nn, anchor=input 1] at ($(Or1.output)+(0.5,-1)$) (And1) {};
+    \node[or gate US, draw, logic gate inputs=nn, anchor=input 1] at ($(Or1.output -| And1.output)+(0.5,-2)$) (Or2) {};
+
+    \foreach \i in {2,1}
+    {
+        \path (x\i) -- coordinate (punt\i) (x\i |- Not\i.input);
+        \draw (punt\i) node[branch] {} -| (Not\i.input);
+    }
+    \draw (x0) |- (Or1.input 2);
+    \draw (Not1.output) |- (Or1.input 1);
+    \draw (Or1.output) -- ([xshift=0.3cm]Or1.output) |- (And1.input 1);
+    \draw (Not2) |- (And1.input 2);
+    \draw (And1.output) -- ([xshift=0.3cm]And1.output) |- (Or2.input 1);
+    \draw (x3) |- (Or2.input 2);
+    \draw (Or2.output) -- ([xshift=0.3cm]Or2.output) node[above] {$F$};   
+  
+\end{tikzpicture}
+
+\centering Figure 1: Logic Circuit for "F = (U + V').W' + Z" \vspace{15mm}
+\\ \raggedright \large \textbf{\underline{Procedure:}} \normalsize \vspace{2mm}
+\\ 1. Execute the following code through the terminal using the command "nvim file-name" after getting the files into respetive directory.
+\\ \centering \underline{\href{https://github.com/BoleManideep/FWC_module1/tree/main/Assignements/ide/codes}{"Code"}} \vspace{2mm}
+\\ \raggedright 2. Make connections with the arduino by giving inputs from digitals pins, connecting them to ground and Vcc represting 'digital LOW' and 'digital HIGH' respectively. \vspace{2mm} 
+\\ \raggedright 3. Connect the output digital pin declared in the code to one end of the resistor and connect the resistor's other end to the LED, with reference to the source code given below. \vspace{2mm}
+\\ \centering \underline{\href{https://github.com/BoleManideep/FWC_module1/blob/main/Assignements/ide/codes/src/main.cpp}{"Souce Code Link"}} \vspace{2mm}
+\\ \raggedright 4. Now by taking different combination of inputs from the truth table given below, check the output being 0 or 1 in regard with the LED off and on respectively. \vspace{5mm}
+\\ \begin{center}
+	Truth Table \vspace{2mm} \\
+    \setlength{\arrayrulewidth}{0.5mm}\setlength{\tabcolsep}{18pt}
+\renewcommand{\arraystretch}{1.5}
+    \begin{tabular}{|c|c|c|c|c|}
+    \hline 
+    \textbf{$U$} & \textbf{$V$} & \textbf{$W$} & \textbf{$Z$} & \textbf{$F$}\\
+      \hline
+      0 & 0 & 0 & 0 & 1\\
+      0 & 0 & 0 & 1 & 1\\
+      0 & 0 & 1 & 0 & 0\\
+      0 & 0 & 1 & 1 & 1\\
+      0 & 1 & 0 & 0 & 0\\
+      0 & 1 & 0 & 1 & 1\\
+      0 & 1 & 1 & 0 & 0\\
+      0 & 1 & 1 & 1 & 1\\
+      1 & 0 & 0 & 0 & 1\\
+      1 & 0 & 0 & 1 & 1\\
+      1 & 0 & 1 & 0 & 0\\
+      1 & 0 & 1 & 1 & 1\\
+      1 & 1 & 0 & 0 & 1\\
+      1 & 1 & 0 & 1 & 1\\
+      1 & 1 & 1 & 0 & 0\\
+      1 & 1 & 1 & 1 & 1\\
+      \hline
+   \end{tabular}
+ \end{center}
+ \vspace{2mm} \raggedright 5. Cross check the output(F) with the above mentioned truth table for the corresponding input combination(U,V,W,Z). \vspace{5mm} \\
+\raggedright \textbf{\underline{karnaugh-map:}} \vspace{3mm} \\
+\raggedright \hspace{15mm} From the Truth Table we can draw a K-map and it is as follows:
+ 
+ \begin{karnaugh-map}[4][4][1][$WZ$][$UV$]
+        \minterms{0,1,3,5,7,8,9,11,12,13,15}
+        \maxterms{2,4,6,10,14}
+        \implicant{1}{11}
+        \implicant{12}{9}
+        \implicantedge{0}{0}{8}{8}
+    \end{karnaugh-map}
+    
+\vspace{5mm} \raggedright \large \textbf{\underline{Coclusion:}} \normalsize \vspace{2mm}
+\\ \raggedright Hence implemented the given boolean expression and drawn it's corresponding Logic Circuit after verifying it's functionality.
+\end{multicols}
+\end{document}
