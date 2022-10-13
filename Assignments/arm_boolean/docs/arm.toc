@@ -1,8 +1,0 @@
-\contentsline {paragraph}{\textit {Problem Statement} - Draw a logic circuit for the boolean expression, (U + V').W' + Z and verify it's functionality.}{1}{section*.1}%
-\contentsline {section}{\numberline {1}Components}{1}{section.1}%
-\contentsline {section}{\numberline {2}Description}{1}{section.2}%
-\contentsline {section}{\numberline {3}Logic Circuit}{1}{section.3}%
-\contentsline {section}{\numberline {4}Truth Table}{1}{section.4}%
-\contentsline {section}{\numberline {5}Procedure}{2}{section.5}%
-\contentsline {section}{\numberline {6}K-Map}{2}{section.6}%
-\contentsline {section}{\numberline {7}Conclusion}{2}{section.7}%
